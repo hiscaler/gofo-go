@@ -1,0 +1,7 @@
+{
+  "debug": true,
+  "timeout": 10,
+  "env": "test",
+  "account": "test003",
+  "password": "test003"
+}
