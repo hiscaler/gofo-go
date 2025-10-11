@@ -79,9 +79,10 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 }
 
 type NormalResponse struct {
-	Code      int    `json:"code"`
-	Message   string `json:"message"`
-	RequestId string `json:"requestId"`
+	Code           int    `json:"code"`
+	Message        string `json:"msg"`
+	EnglishMessage string `json:"msgEn"`
+	Data           any    `json:"data"`
 }
 
 // errorWrap 错误包装
