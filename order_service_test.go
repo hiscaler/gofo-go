@@ -19,8 +19,9 @@ func TestOrderService_Create(t *testing.T) {
 			ShipperState:   "Guangdong",
 			ShipperCity:    "Shenzhen",
 			ShipperStreet:  "test street",
-			ShipperCode:    "518000",
+			ShipperCode:    "90058",
 		},
+		ProductCode: null.StringFrom("GOFO Parcel Pickup"),
 		OrderConsignee: entity.OrderConsignee{
 			ConsigneeName:    "test",
 			ConsigneePhone:   "13000000000",

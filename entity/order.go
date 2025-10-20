@@ -7,6 +7,7 @@ import (
 
 // OrderCreateResponse 订单
 type OrderCreateResponse struct {
+	FourSegmentCode string `json:"fourSegmentCode"`
 	COrderNo        string `json:"cOrderNo"`
 	VerificationPin string `json:"verificationPin"`
 	Type            string `json:"type"`

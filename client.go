@@ -109,7 +109,9 @@ func errorWrap(code int, message string) error {
 	case 404:
 		message = "接口不存在"
 	case 500:
-		message = "操作失败"
+		if message == "" {
+			message = "操作失败"
+		}
 	default:
 		message = strings.TrimSpace(message)
 		if message == "" {
