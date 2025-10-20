@@ -19,13 +19,6 @@ import (
 )
 
 const (
-	OK              = 200 // 无错误
-	BadRequestError = 400 // 请求错误
-	InvalidToken    = 401 // 无效的 Token
-	InternalError   = 500 // 内部服务器错误
-)
-
-const (
 	Version   = "0.0.1"
 	userAgent = "GOFO API Client-Golang/" + Version + " (https://github.com/hiscaler/gofo-go)"
 )
@@ -51,6 +44,23 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 	if cfg.Env != entity.Prod {
 		baseUrl = TestBaseUrl
 	}
+	//plainString := cfg.Account + ":" + cfg.Password
+	//
+	//// Encode the string to Base64 using the standard encoding
+	//// The EncodeToString method requires a byte slice, so convert the string
+	//encodedString := base64.StdEncoding.EncodeToString([]byte(plainString))
+	//
+	//fmt.Printf("Original String: %s\n", plainString)
+	//fmt.Printf("Base64 Encoded String: %s\n", encodedString)
+	//
+	//// You can also decode it back to verify
+	//decodedBytes, err := base64.StdEncoding.DecodeString(encodedString)
+	//if err != nil {
+	//	fmt.Println("Error decoding:", err)
+	//}
+	//decodedString := string(decodedBytes)
+	//fmt.Printf("Base64 Decoded String: %s\n", decodedString)
+	//os.Exit(0)
 	httpClient := resty.New().
 		SetDebug(cfg.Debug).
 		SetBaseURL(baseUrl).
@@ -64,9 +74,7 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 		SetRetryCount(2).
 		SetRetryWaitTime(2 * time.Second).
 		SetRetryMaxWaitTime(5 * time.Second)
-
 	gofoClient.httpClient = httpClient
-
 	xService := service{
 		config:     &cfg,
 		logger:     logger,
@@ -87,23 +95,25 @@ type NormalResponse struct {
 
 // errorWrap 错误包装
 func errorWrap(code int, message string) error {
-	if code == OK || code == 0 {
+	if code == 200 {
 		return nil
 	}
 
 	switch code {
-	case InvalidToken:
-		message = "无效的 Token"
+	case 301:
+		message = "参数异常"
+	case 305:
+		message = "数据不存在"
+	case 401:
+		message = "未认证（签名错误）"
+	case 404:
+		message = "接口不存在"
+	case 500:
+		message = "操作失败"
 	default:
-		if code == InternalError {
-			if message == "" {
-				message = "内部服务器错误，请联系【闪派国际】客服人员"
-			}
-		} else {
-			message = strings.TrimSpace(message)
-			if message == "" {
-				message = "Unknown error"
-			}
+		message = strings.TrimSpace(message)
+		if message == "" {
+			message = "Unknown error"
 		}
 	}
 	return fmt.Errorf("%d: %s", code, message)
@@ -159,13 +169,13 @@ func recheckError(resp *resty.Response, e error) error {
 	}
 
 	if resp.IsError() {
+		return fmt.Errorf("%v", resp.Error())
+	} else {
 		var normalResponse NormalResponse
 		err := json.Unmarshal(resp.Body(), &normalResponse)
 		if err != nil {
 			return err
 		}
-		return errorWrap(resp.StatusCode(), normalResponse.Message)
+		return errorWrap(normalResponse.Code, normalResponse.Message)
 	}
-
-	return nil
 }

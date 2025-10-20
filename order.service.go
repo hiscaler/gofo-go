@@ -19,7 +19,7 @@ func (s orderService) Create(ctx context.Context, req entity.CreateOrderRequest)
 
 	var res struct {
 		NormalResponse
-		Data entity.OrderCreateResponse
+		Data entity.OrderCreateResponse `json:"data"`
 	}
 	resp, err := s.httpClient.R().
 		SetContext(ctx).
@@ -63,8 +63,8 @@ func (s orderService) ShippingLabel(ctx context.Context, orderNo string) (string
 	resp, err := s.httpClient.R().
 		SetContext(ctx).
 		SetQueryParam("orderNo", orderNo).
-		SetResult(res).
-		Get("/api/v2/order/getOrderLabelUrlV2")
+		SetResult(&res).
+		Get("/open-api/v2/order/getOrderLabelUrlV2")
 	if err = recheckError(resp, err); err != nil {
 		return "", err
 	}
@@ -80,7 +80,7 @@ func (s orderService) Track(ctx context.Context, orderNo string) ([]entity.Track
 	}
 	resp, err := s.httpClient.R().
 		SetContext(ctx).
-		SetResult(res).
+		SetResult(&res).
 		Get(fmt.Sprintf("/open-api/v2/order/track/%s", orderNo))
 	if err = recheckError(resp, err); err != nil {
 		return nil, err

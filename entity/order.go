@@ -65,7 +65,7 @@ func (m OrderShipper) Validate() error {
 		validation.Field(&m.ShipperPhone, validation.Required.Error("发件人手机号不能为空"), validation.Length(10, 14).Error("发件人手机号长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ShipperCountry, validation.Required.Error("发件人国家不能为空")),
 		validation.Field(&m.ShipperState, validation.Required.Error("发件人省/州不能为空"), validation.Length(1, 35).Error("发件人省/州长度必须在 {{.min}}-{{.max}} 之间")),
-		validation.Field(&m.ShipperCity, validation.Required.Error("发件人市不能为空"), validation.Length(1, 50).Error("发件人市长度必须在 {{.min}}-{{.max}} 之间")),
+		validation.Field(&m.ShipperCity, validation.Required.Error("发件人市不能为空"), validation.Length(1, 50).Error("发件人城市长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ShipperArea, validation.When(m.ShipperArea.Valid, validation.Length(1, 50).Error("发件人区长度必须在 {{.min}}-{{.max}} 之间"))),
 		validation.Field(&m.ShipperStreet, validation.Required.Error("发件人详细地址不能为空"), validation.Length(1, 100).Error("发件人详细地址长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ShipperCode, validation.Required.Error("发件人邮编不能为空")),
