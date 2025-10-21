@@ -44,23 +44,6 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 	if cfg.Env != entity.Prod {
 		baseUrl = TestBaseUrl
 	}
-	//plainString := cfg.Account + ":" + cfg.Password
-	//
-	//// Encode the string to Base64 using the standard encoding
-	//// The EncodeToString method requires a byte slice, so convert the string
-	//encodedString := base64.StdEncoding.EncodeToString([]byte(plainString))
-	//
-	//fmt.Printf("Original String: %s\n", plainString)
-	//fmt.Printf("Base64 Encoded String: %s\n", encodedString)
-	//
-	//// You can also decode it back to verify
-	//decodedBytes, err := base64.StdEncoding.DecodeString(encodedString)
-	//if err != nil {
-	//	fmt.Println("Error decoding:", err)
-	//}
-	//decodedString := string(decodedBytes)
-	//fmt.Printf("Base64 Decoded String: %s\n", decodedString)
-	//os.Exit(0)
 	httpClient := resty.New().
 		SetDebug(cfg.Debug).
 		SetBaseURL(baseUrl).
