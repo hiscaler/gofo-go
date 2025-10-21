@@ -28,6 +28,7 @@ type CreateOrderRequest struct {
 	OrderConsignee        OrderConsignee  `json:"orderConsignee"`                  // 收件信息
 	OrderGoods            OrderGoods      `json:"orderGoods"`                      // 订单货物规格
 	OrderItemList         []OrderItem     `json:"orderItemList"`                   // 订单物品信息
+	EntryPort             string          `json:"entryPort"`                       // 入口岸
 	OrderInsurance        *OrderInsurance `json:"orderInsurance,omitempty"`        // 订单保价
 }
 
@@ -129,7 +130,6 @@ type OrderItem struct {
 	ItemNameEn string `json:"itemNameEn"` // 物品名称, 长度 1-128
 	ItemNameZh string `json:"itemNameZh"` // 物品中文名称, 长度 1-60
 	ItemQty    int    `json:"itemQty"`    // 物品件数, 范围 1 到 9999
-	EntryPort  string `json:"entryPort"`  // 入口岸
 }
 
 func (m OrderItem) Validate() error {
@@ -137,7 +137,6 @@ func (m OrderItem) Validate() error {
 		validation.Field(&m.ItemNameEn, validation.Required.Error("物品名称不能为空"), validation.Length(1, 128).Error("物品名称长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ItemNameZh, validation.Required.Error("物品中文名称不能为空"), validation.Length(1, 60).Error("物品中文名称长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ItemQty, validation.Required.Error("物品件数不能为空"), validation.Min(1).Error("物品件数不能小于 {{.min}}"), validation.Max(9999).Error("物品件数不能大于 {{.max}}")),
-		validation.Field(&m.EntryPort, validation.Required.Error("入口岸不能为空")),
 	)
 }
 
@@ -187,7 +186,6 @@ func (m CancelOrderRequest) Validate() error {
 }
 
 // Cancel 取消订单
-// doc: https://www.showdoc.com.cn/gofo/9294126170337715
 func (s orderService) Cancel(ctx context.Context, req CancelOrderRequest) (bool, error) {
 	if err := req.Validate(); err != nil {
 		return false, invalidInput(err)
