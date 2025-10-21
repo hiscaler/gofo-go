@@ -1,7 +1,7 @@
 package entity
 
-// OrderCreateResponse 订单
-type OrderCreateResponse struct {
+// OrderCreateResult 订单
+type OrderCreateResult struct {
 	FourSegmentCode string `json:"fourSegmentCode"`
 	COrderNo        string `json:"cOrderNo"`        // 客户单号
 	VerificationPin string `json:"verificationPin"` // 签收 PIN 码

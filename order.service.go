@@ -2,6 +2,7 @@ package gofo
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
@@ -152,15 +153,14 @@ func (m OrderInsurance) Validate() error {
 }
 
 // Create 创建订单
-// doc: https://www.showdoc.com.cn/gofo/9294126170337714
-func (s orderService) Create(ctx context.Context, req CreateOrderRequest) (*entity.OrderCreateResponse, error) {
+func (s orderService) Create(ctx context.Context, req CreateOrderRequest) (entity.OrderCreateResult, error) {
 	if err := req.Validate(); err != nil {
-		return nil, invalidInput(err)
+		return entity.OrderCreateResult{}, invalidInput(err)
 	}
 
 	var res struct {
 		NormalResponse
-		Data entity.OrderCreateResponse `json:"data"`
+		Data entity.OrderCreateResult `json:"data"`
 	}
 	resp, err := s.httpClient.R().
 		SetContext(ctx).
@@ -168,9 +168,9 @@ func (s orderService) Create(ctx context.Context, req CreateOrderRequest) (*enti
 		SetResult(&res).
 		Post("/open-api/v2/order/create")
 	if err = recheckError(resp, err); err != nil {
-		return nil, err
+		return entity.OrderCreateResult{}, err
 	}
-	return &res.Data, nil
+	return res.Data, nil
 }
 
 // CancelOrderRequest 取消订单请求
@@ -221,6 +221,9 @@ func (s orderService) ShippingLabel(ctx context.Context, orderNo string) (string
 		Get("/open-api/v2/order/getOrderLabelUrlV2")
 	if err = recheckError(resp, err); err != nil {
 		return "", err
+	}
+	if res.Data.Base64code == "" {
+		return "", errors.New("面单数据为空")
 	}
 	return res.Data.Base64code, nil
 }
