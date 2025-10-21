@@ -41,7 +41,6 @@ func TestOrderService_Create(t *testing.T) {
 				ItemNameEn: "test",
 				ItemNameZh: "测试",
 				ItemQty:    1,
-				EntryPort:  "LAX",
 			},
 		},
 	}

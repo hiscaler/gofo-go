@@ -118,10 +118,10 @@ type OrderGoods struct {
 
 func (m OrderGoods) Validate() error {
 	return validation.ValidateStruct(&m,
-		validation.Field(&m.Weight, validation.Required.Error("包裹预报重量不能为空"), validation.Min(0.001).Error("包裹预报重量不能小于 {{.min}}"), validation.Max(99.00).Error("包裹预报重量不能大于 {{.max}}")),
-		validation.Field(&m.Length, validation.Required.Error("包裹的长不能为空"), validation.Min(1.0).Error("包裹的长不能小于 {{.min}}"), validation.Max(999.0).Error("包裹的长不能大于 {{.max}}")),
-		validation.Field(&m.Height, validation.Required.Error("包裹的高不能为空"), validation.Min(1.0).Error("包裹的高不能小于 {{.min}}"), validation.Max(999.0).Error("包裹的高不能大于 {{.max}}")),
-		validation.Field(&m.Width, validation.Required.Error("包裹的宽不能为空"), validation.Min(1.0).Error("包裹的宽不能小于 {{.min}}"), validation.Max(999.0).Error("包裹的宽不能大于 {{.max}}")),
+		validation.Field(&m.Weight, validation.Required.Error("包裹预报重量不能为空"), validation.Min(0.001).Error("包裹预报重量不能小于 {{.threshold}}"), validation.Max(99.00).Error("包裹预报重量不能大于 {{.threshold}}")),
+		validation.Field(&m.Length, validation.Required.Error("包裹的长不能为空"), validation.Min(0.01).Error("包裹的长不能小于 {{.threshold}}"), validation.Max(999.0).Error("包裹的长不能大于 {{.threshold}}")),
+		validation.Field(&m.Height, validation.Required.Error("包裹的高不能为空"), validation.Min(0.01).Error("包裹的高不能小于 {{.threshold}}"), validation.Max(999.0).Error("包裹的高不能大于 {{.threshold}}")),
+		validation.Field(&m.Width, validation.Required.Error("包裹的宽不能为空"), validation.Min(0.01).Error("包裹的宽不能小于 {{.threshold}}"), validation.Max(999.0).Error("包裹的宽不能大于 {{.threshold}}")),
 	)
 }
 
