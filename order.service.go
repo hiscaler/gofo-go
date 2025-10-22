@@ -39,7 +39,7 @@ func (m CreateOrderRequest) Validate() error {
 		validation.Field(&m.Reference4, validation.When(m.Reference4.Valid, validation.Length(1, 255).Error("预留字段长度必须在 {{.min}}-{{.max}} 之间"))),
 		validation.Field(&m.YtReference, validation.When(m.YtReference.Valid, validation.Length(1, 30).Error("面单 Reference 栏位内容长度必须在 {{.min}}-{{.max}} 之间"))),
 		validation.Field(&m.ProductCode, validation.When(m.ProductCode.Valid, validation.Length(1, 100).Error("产品编码长度必须在 {{.min}}-{{.max}} 之间"))),
-		validation.Field(&m.DeclaredValue, validation.Required.Error("包裹预报货值不能为空"), validation.Min(0.0001).Error("包裹预报货值不能小于 {{.min}}"), validation.Max(100.00).Error("包裹预报货值不能大于 {{.max}}")),
+		validation.Field(&m.DeclaredValue, validation.Required.Error("包裹预报货值不能为空"), validation.Min(0.0001).Error("包裹预报货值不能小于 {{.threshold}}"), validation.Max(100.00).Error("包裹预报货值不能大于 {{.threshold}}")),
 		validation.Field(&m.OrderShipper),
 		validation.Field(&m.OrderConsignee),
 		validation.Field(&m.OrderGoods),
@@ -136,7 +136,10 @@ func (m OrderItem) Validate() error {
 	return validation.ValidateStruct(&m,
 		validation.Field(&m.ItemNameEn, validation.Required.Error("物品名称不能为空"), validation.Length(1, 128).Error("物品名称长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ItemNameZh, validation.Required.Error("物品中文名称不能为空"), validation.Length(1, 60).Error("物品中文名称长度必须在 {{.min}}-{{.max}} 之间")),
-		validation.Field(&m.ItemQty, validation.Required.Error("物品件数不能为空"), validation.Min(1).Error("物品件数不能小于 {{.min}}"), validation.Max(9999).Error("物品件数不能大于 {{.max}}")),
+		validation.Field(&m.ItemQty,
+			validation.Required.Error("物品件数不能为空"),
+			validation.Min(1).Error("物品件数不能小于 {{.threshold}}"),
+			validation.Max(9999).Error("物品件数不能大于 {{.threshold}}")),
 	)
 }
 
@@ -147,7 +150,7 @@ type OrderInsurance struct {
 
 func (m OrderInsurance) Validate() error {
 	return validation.ValidateStruct(&m,
-		validation.Field(&m.InsuredAmount, validation.Required.Error("保价金额不能为空"), validation.Min(0.0001).Error("保价金额不能小于 {{.min}}"), validation.Max(10000.0).Error("保价金额不能大于 {{.max}}")),
+		validation.Field(&m.InsuredAmount, validation.Required.Error("保价金额不能为空"), validation.Min(0.0001).Error("保价金额不能小于 {{.threshold}}"), validation.Max(10000.0).Error("保价金额不能大于 {{.threshold}}")),
 	)
 }
 
