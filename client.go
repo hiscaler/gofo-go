@@ -5,9 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
-	"os"
 	"sort"
 	"strings"
 	"time"
@@ -36,7 +34,7 @@ type Client struct {
 }
 
 func NewClient(ctx context.Context, cfg config.Config) *Client {
-	logger := log.New(os.Stdout, "[ Client ] ", log.LstdFlags|log.Llongfile)
+	l := createLogger()
 	gofoClient := &Client{
 		config: &cfg,
 	}
@@ -60,7 +58,7 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 	gofoClient.httpClient = httpClient
 	xService := service{
 		config:     &cfg,
-		logger:     logger,
+		logger:     l.l,
 		httpClient: gofoClient.httpClient,
 	}
 	gofoClient.Services = services{
