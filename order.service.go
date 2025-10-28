@@ -95,12 +95,12 @@ type OrderConsignee struct {
 func (m OrderConsignee) Validate() error {
 	return validation.ValidateStruct(&m,
 		validation.Field(&m.ConsigneeName, validation.Required.Error("收件人姓名不能为空"), validation.Length(1, 100).Error("收件人姓名长度必须在 {{.min}}-{{.max}} 之间")),
-		validation.Field(&m.ConsigneePhone, validation.Required.Error("收件人手机号不能为空"), validation.Length(10, 14).Error("收件人手机号长度必须在 {{.min}}-{{.max}} 之间")),
+		//validation.Field(&m.ConsigneePhone, validation.Required.Error("收件人手机号不能为空"), validation.Length(10, 14).Error("收件人手机号长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ConsigneeCountry, validation.Required.Error("收件人国家不能为空")),
 		validation.Field(&m.ConsigneeState, validation.Required.Error("收件人州不能为空"), validation.Length(1, 35).Error("收件人州长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.ConsigneeCity, validation.Required.Error("收件人市不能为空"), validation.Length(1, 50).Error("收件人市长度必须在 {{.min}}-{{.max}} 之间")),
 		validation.Field(&m.Address1, validation.Required.Error("收件地址 1 不能为空"), validation.Length(1, 255).Error("收件地址 1 长度必须在 {{.min}}-{{.max}} 之间")),
-		validation.Field(&m.ConsigneeCode, validation.Required.Error("收件人邮编不能为空"), validation.Length(5, 6).Error("收件人邮编必须为 {{.min}}-{{.max}} 位数字")),
+		//validation.Field(&m.ConsigneeCode, validation.Required.Error("收件人邮编不能为空"), validation.Length(5, 6).Error("收件人邮编必须为 {{.min}}-{{.max}} 位数字")),
 	)
 }
 
