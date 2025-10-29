@@ -22,7 +22,7 @@ const (
 )
 
 const (
-	ProdBaseUrl = "https://uat-dbu-api.eminxing.com"
+	ProdBaseUrl = "https://dmsapi.gofoexpress.com"
 	TestBaseUrl = "https://uat-dbu-api.eminxing.com"
 )
 
