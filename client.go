@@ -49,8 +49,8 @@ func NewClient(ctx context.Context, cfg config.Config) *Client {
 			"Content-Type": "application/json",
 			"Accept":       "application/json",
 			"User-Agent":   userAgent,
-		})
-	httpClient.SetTimeout(time.Duration(cfg.Timeout)*time.Second).
+		}).
+		SetTimeout(time.Duration(cfg.Timeout)*time.Second).
 		SetBasicAuth(cfg.Account, cfg.Password).
 		SetRetryCount(2).
 		SetRetryWaitTime(2 * time.Second).
