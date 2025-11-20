@@ -27,10 +27,9 @@ const (
 )
 
 type Client struct {
-	config      *config.Config // 配置
-	httpClient  *resty.Client  // Resty Client
-	accessToken string         // AccessToken
-	Services    services       // API Services
+	config     *config.Config // 配置
+	httpClient *resty.Client  // Resty Client
+	Services   services       // API Services
 }
 
 func NewClient(ctx context.Context, cfg config.Config) *Client {
@@ -96,7 +95,7 @@ func errorWrap(code int, message string) error {
 	default:
 		message = strings.TrimSpace(message)
 		if message == "" {
-			message = "Unknown error"
+			message = "未知错误"
 		}
 	}
 	return fmt.Errorf("%d: %s", code, message)
