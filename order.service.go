@@ -2,6 +2,7 @@ package gofo
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -167,9 +168,20 @@ func (s orderService) Create(ctx context.Context, req CreateOrderRequest) (entit
 	resp, err := s.httpClient.R().
 		SetContext(ctx).
 		SetBody(req).
-		SetResult(&res).
 		Post("/open-api/v2/order/create")
 	if err = recheckError(resp, err); err != nil {
+		return entity.OrderCreateResult{}, err
+	}
+
+	var r NormalResponse
+	if err = json.Unmarshal(resp.Body(), &r); err != nil {
+		return entity.OrderCreateResult{}, err
+	}
+	if r.Code == 500 {
+		return entity.OrderCreateResult{}, errorWrap(r.Code, r.Message)
+	}
+
+	if err = json.Unmarshal(resp.Body(), &res); err != nil {
 		return entity.OrderCreateResult{}, err
 	}
 	return res.Data, nil
