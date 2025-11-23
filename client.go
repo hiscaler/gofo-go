@@ -80,8 +80,6 @@ func errorWrap(code int, message string) error {
 	}
 
 	switch code {
-	case 301:
-		message = "参数异常"
 	case 305:
 		message = "数据不存在"
 	case 401:
@@ -98,7 +96,7 @@ func errorWrap(code int, message string) error {
 			message = "未知错误"
 		}
 	}
-	return fmt.Errorf("%d: %s", code, message)
+	return fmt.Errorf("%d %s", code, message)
 }
 
 func invalidInput(e error) error {
