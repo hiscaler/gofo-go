@@ -244,6 +244,9 @@ func (s orderService) ShippingLabel(ctx context.Context, orderNo string) (string
 // Track 轨迹查询
 // @param orderNo 订单号/运单号/客户单号
 func (s orderService) Track(ctx context.Context, orderNo string) ([]entity.TrackEvent, error) {
+	if orderNo == "" {
+		return nil, errors.New("查询单号不能为空")
+	}
 	var res struct {
 		NormalResponse
 		Data []entity.TrackEvent `json:"data"`
