@@ -83,7 +83,7 @@ func errorWrap(code int, message string) error {
 	case 305:
 		message = "数据不存在"
 	case 401:
-		message = "未认证（签名错误）"
+		message = "认证失败，无法调用接口"
 	case 404:
 		message = "接口不存在"
 	case 500:
