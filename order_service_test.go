@@ -69,7 +69,7 @@ func TestOrderService_ShippingLabel(t *testing.T) {
 }
 
 func TestOrderService_Track(t *testing.T) {
-	_, err := client.Services.Order.Track(ctx, "GFUS01014625997824")
+	_, err := client.Services.Order.Tracks(ctx, "GFUS01014625997824")
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
